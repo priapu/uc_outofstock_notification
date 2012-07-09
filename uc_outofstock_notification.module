@@ -1,0 +1,29 @@
+<?php
+
+function uc_outofstock_notification_uc_add_to_cart($nid, $qty, $data) {
+  $variants = uc_product_load_variant($nid, $data);
+  $model = $variants->model; // $model is the SKU, HA!
+  $stock = uc_stock_level($model); // $stock is the stock, of course.
+  $stock = intval($stock);
+  $node = node_load($nid);
+  
+  if (uc_stock_is_active($model)) {
+    if ($stock < $qty) {
+      $result[] = array(
+        'success' => FALSE,
+        'message' => t('Sorry, this variant is not in stock right now.'),
+      );
+    } else {
+      $result[] = array(
+        'success' => TRUE, 
+        'message' => $node->title.t(' has been added to cart.'),
+      );
+    }
+  } else {
+    $result[] = array(
+      'success' => FALSE,
+      'message' => t('Sorry, stock is inactive.'),
+    );
+  }
+  return $result;
+}

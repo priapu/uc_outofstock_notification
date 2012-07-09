@@ -1,0 +1,7 @@
+name = Ubercart: Out of stock notification
+package = Webdevetc.com
+description = This module checks if the item that the client added to cart is in stock. If not, throws an error.
+core = 7.x
+
+version = "7.x-1.0"
+core = "7.x"
